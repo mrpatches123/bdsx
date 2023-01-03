@@ -1,10 +1,4 @@
 {
-  "exclude": [
-    "node_modules",
-    "bedrock_server",
-    "addons",
-    "bdsx/pdbparser/globals"
-  ],
   "compilerOptions": {
     "target": "es2017",
     "lib": [
@@ -19,6 +13,7 @@
     "resolveJsonModule": true,
     "inlineSourceMap": true,
     "importHelpers": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "declaration": true
   }
 }

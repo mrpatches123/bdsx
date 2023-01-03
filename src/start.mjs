@@ -114,7 +114,7 @@ const { header: { uuid, version } } = JSON.parse(fs.readFileSync(`${apiPath}/man
 
 fs.writeFileSync(`${serverFolder}/worlds/Bedrock level/world_behavior_packs.json`, JSON.stringify([
 	{
-		uuid,
+		pack_id: uuid,
 		version
 	}
 ], null, 4));
@@ -209,7 +209,7 @@ max-threads=8
 # Allowed values: Any positive integer.
 
 level-name=Bedrock level
-# Allowed values: Any string without semicolon symbol or symbols illegal for file name: /\n\r\t\f?*\\<>|\":
+# Allowed values: Any string without semicolon symbol or symbols illegal for file name
 
 level-seed=
 # Use to randomize the world
