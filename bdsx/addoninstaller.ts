@@ -25,10 +25,10 @@ interface AddonManifest {
         name: string;
         uuid: string;
         version?: string[];
-        modules: { version: string[]; type: string }[];
+        modules: { version: string[]; type: string; }[];
     };
 
-    modules?: { type: string }[];
+    modules?: { type: string; }[];
 }
 
 enum Provider {
@@ -38,8 +38,8 @@ enum Provider {
 }
 
 enum PackDirectoryType {
-    ResourcePacks = "resource_packs",
-    BehaviorPacks = "behavior_packs",
+    ResourcePacks = "development_resource_packs",
+    BehaviorPacks = "development_behavior_packs",
 }
 
 class PackInfo {
@@ -105,7 +105,7 @@ class PackDirectory {
     private readonly packs = new Map<string, PackInfo>();
     private loaded = false;
 
-    constructor(public readonly host: Provider, public readonly type: PackDirectoryType | null, public readonly path: string, public readonly managedPath: string) {}
+    constructor(public readonly host: Provider, public readonly type: PackDirectoryType | null, public readonly path: string, public readonly managedPath: string) { }
 
     private async _load(): Promise<void> {
         if (this.loaded) return;
@@ -198,7 +198,7 @@ class ManagedPack {
     public packName: string | null = null;
     public pack: PackInfo | null = null;
 
-    constructor(public readonly managedName: string) {}
+    constructor(public readonly managedName: string) { }
 
     checkUpdated(targetTime: number): boolean {
         return this.installMTime === null || targetTime > this.installMTime;
@@ -429,7 +429,7 @@ abstract class PackManager<T> {
     private loaded = false;
     public modified = false;
 
-    constructor(public readonly provider: Provider, public readonly jsonPath: string) {}
+    constructor(public readonly provider: Provider, public readonly jsonPath: string) { }
 
     protected async _load(): Promise<void> {
         if (this.loaded) return;
@@ -442,7 +442,7 @@ abstract class PackManager<T> {
             if (result instanceof Array) {
                 this.data = result;
             }
-        } catch (err) {}
+        } catch (err) { }
     }
 
     async save(): Promise<void> {
@@ -506,14 +506,14 @@ class ServerPackManager extends PackManager<ServerPack> {
     public readonly installedResources = new PackDirectory(
         Provider.Server,
         PackDirectoryType.ResourcePacks,
-        Config.BDS_PATH + path.sep + "resource_packs",
-        "bedrock_server/resource_packs",
+        Config.BDS_PATH + path.sep + "development_resource_packs",
+        "bedrock_server/development_resource_packs",
     );
     public readonly installedBehaviors = new PackDirectory(
         Provider.Server,
         PackDirectoryType.BehaviorPacks,
-        Config.BDS_PATH + path.sep + "behavior_packs",
-        "bedrock_server/behavior_packs",
+        Config.BDS_PATH + path.sep + "development_behavior_packs",
+        "bedrock_server/development_behavior_packs",
     );
 
     constructor(jsonPath: string) {
@@ -651,7 +651,7 @@ async function findFiles(filenames: Set<string>, directory: string): Promise<str
     const directories: string[] = [path.resolve(directory)];
     const files: string[] = [];
 
-    for (;;) {
+    for (; ;) {
         for (const dir of directories) {
             const contents = await fsutil.readdir(dir);
             for (const file of contents) {
