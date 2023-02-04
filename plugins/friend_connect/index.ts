@@ -1,7 +1,8 @@
 
-const { events } = require("bdsx/event");
-const { Session } = require("friend-connect");
-
+import { events } from "bdsx/event";
+import { Session } from "friend-connect";
+// const { events } = require("bdsx/event");
+// const { Session } = require("friend-connect");
 
 console.log('[plugin:FriendConnect] allocated');
 
