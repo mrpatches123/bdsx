@@ -1,15 +1,13 @@
 import * as colors from "colors";
 import { bin } from "../bin";
-import { CircularDetector } from "../circulardetector";
 import type { CommandResult, CommandResultType } from "../commandresult";
 import { abstract } from "../common";
 import { StaticPointer, VoidPointer } from "../core";
 import { CxxVector } from "../cxxvector";
-import { decay } from "../decay";
 import { events } from "../event";
 import { mangle } from "../mangle";
 import { AbstractClass, nativeClass, NativeClass, nativeClassUtil, nativeField, NativeStruct } from "../nativeclass";
-import { bin64_t, bool_t, CxxString, float32_t, int32_t, int64_as_float_t, uint16_t, uint8_t } from "../nativetype";
+import { bin64_t, bool_t, CxxString, float32_t, int32_t, int64_as_float_t, uint8_t } from "../nativetype";
 import { AttributeId, AttributeInstance, BaseAttributeMap } from "./attribute";
 import type { BlockSource } from "./block";
 import { BlockPos, Vec2, Vec3 } from "./blockpos";
@@ -1358,11 +1356,10 @@ export class Actor extends AbstractClass {
     }
 
     /**
-     * There is Actor::isRemoved in BDS
-     * but customized for bdsx instead of hooking it.
+     * @deprecated it's meaningless. Doesn't work for decayed objects.
      */
     isRemoved(): boolean {
-        return decay.isDecayed(this);
+        return false;
     }
 
     isBaby(): boolean {
